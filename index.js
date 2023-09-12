@@ -73,8 +73,22 @@ function addDepartment () {
 
 // shows all roles
 function viewRoles () {
-    console.log('roles'); 
-}
+    const sql = `
+    SELECT 
+        r.id, r.title, r.salary, d.name as department
+        FROM role r
+        LEFT JOIN department d 
+            ON r.department_id = d.id
+        `;
+    db.query(sql, (err, roles) => {
+        if (err) {
+            return console.log(err); 
+        }
+        
+        console.table(roles); 
+        init();
+     
+    });}
 
 
 // adds a role
