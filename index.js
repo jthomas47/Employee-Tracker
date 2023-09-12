@@ -93,7 +93,37 @@ function viewRoles () {
 
 // adds a role
 function addRole () {
-    console.log('add role'); 
+    inquirer.prompt ([
+        {
+            type: 'input',
+            name: 'roleName',
+            message: 'What is the name of the role?',
+        },
+        {
+            type: 'input',
+            name: 'roleSalary',
+            message: 'What is the salary for the role?',
+        },
+        {
+            type: 'input',
+            name: 'roleDepartment',
+            message: 'What department does the role belong to?',
+        },
+
+
+    ]).then( async ({ roleName, roleSalary, roleDepartment }) => {
+        const getId = `SELECT id FROM department WHERE name = '${roleDepartment}'`; 
+        const sql = `INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)`;
+        const id = await db.promise().query(getId);
+        const params = [roleName, roleSalary, id[0][0].id]; 
+        db.query(sql, params, (err) => {
+            if (err) {
+                console.log(err); 
+            }
+            console.log(`Successfully added ${roleName}`); 
+            init();
+        });  
+     }); 
 }
 
 
