@@ -128,9 +128,29 @@ function addRole () {
 
 
 // shows all employees
-function viewEmployees () {
-    console.log('employees'); 
-}
+async function viewEmployees () {
+    const sql = `
+    SELECT 
+        e.id, e.first_name AS first, e.last_name AS last, r.title, r.salary, d.name AS department, CONCAT(manager.first_name, ' ', manager.last_name) as manager
+        FROM employee e
+        LEFT JOIN role r
+            ON e.role_id = r.id
+        LEFT JOIN department d
+            ON r.department_id = d.id
+        LEFT JOIN employee manager 
+            ON manager.id = e.manager_id
+        `;
+        
+        
+    db.query(sql, (err, employees) => {
+        if (err) {
+            return console.log(err); 
+        }
+        
+        console.table(employees); 
+        init();
+     
+    });}
 
 
 // add a new employee
