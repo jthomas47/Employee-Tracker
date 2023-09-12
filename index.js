@@ -51,7 +51,23 @@ function viewDepartments () {
 
 // adds a department
 function addDepartment () {
-    console.log('add department'); 
+    inquirer.prompt (
+        {
+            type: 'input',
+            name: 'newDepartment',
+            message: 'What is the name of the department?',
+        }
+    ).then(({ newDepartment }) => {
+        const sql = `INSERT INTO department (name) VALUES (?)`;
+        const params = [newDepartment]; 
+        db.query(sql, params, (err) => {
+            if (err) {
+                return console.log(err);
+            }
+            console.log(`Successfully added ${params}`);
+            init();
+        }); 
+    });
 }
 
 
