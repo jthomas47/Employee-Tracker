@@ -36,7 +36,16 @@ function promptUser () {
 
 // shows all departments
 function viewDepartments () {
-    console.log('departments'); 
+    const sql = `SELECT id, name FROM department`;
+    db.query(sql, (err, departments) => {
+        if (err) {
+            return console.log(err); 
+        }
+        
+        console.table(departments); 
+        init();
+     
+    });
 }
 
 
