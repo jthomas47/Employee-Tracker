@@ -203,7 +203,30 @@ function addEmployee () {
 
 // updates a current employee
 function updateEmployee () {
-    console.log('update employee');
+    inquirer.prompt([
+        {
+            type: 'input',
+            name: 'employee',
+            message: 'Which employee would you like to update?',
+        },
+        {
+            type: 'input',
+            name: 'newRole',
+            message: 'What is their new role?',
+        }
+    ]).then(async ({ employee, newRole }) => {
+        const getId = `SELECT id FROM role WHERE title = '${newRole}'`; 
+        const sql = `UPDATE employee SET role_id = ? WHERE CONCAT(first_name, ' ', last_name) = ?`;
+        id = await db.promise().query(getId); 
+        const params = [id[0][0].id, employee ];
+        db.query(sql, params, (err) => {
+            if (err) {
+                console.log(err);
+            }
+            console.log(`Successfully updated ${employee}'s role`)
+            init();
+        });
+    });
 }
 
 
