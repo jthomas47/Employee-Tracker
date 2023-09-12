@@ -155,7 +155,49 @@ async function viewEmployees () {
 
 // add a new employee
 function addEmployee () {
-    console.log('add employee');
+    inquirer.prompt ([
+        {
+            type: 'input',
+            name: 'firstName',
+            message: 'What is their first name?',
+        },
+        {
+            type: 'input',
+            name: 'lastName',
+            message: 'What is their last name?',
+        },
+        {
+            type: 'input',
+            name: 'role',
+            message: 'What is their role?',
+        },
+        {
+            type: 'input',
+            name: 'manager',
+            message: 'Who is their manager?',
+        }
+
+    ]).then(async ({ firstName, lastName, role, manager }) => {
+        const getRoleId = `SELECT id FROM role WHERE title = '${role}'`; 
+        const getManagerId = `SELECT id FROM employee e WHERE CONCAT(e.first_name, ' ', e.last_name) = '${manager}' `
+        const sql = `INSERT INTO employee (first_name, last_name, role_id, manager_id ) VALUES (?, ?, ?, ?)`; 
+        const roleId = await db.promise().query(getRoleId); 
+        const managerId = await db.promise().query(getManagerId); 
+        let manager_id = null; 
+        if (managerId) {
+            manager_id = managerId[0][0].id;
+        }
+        const params = [firstName, lastName, roleId[0][0].id, manager_id] 
+
+        db.query(sql, params, (err) => {
+            if (err) {
+                console.log(err); 
+            }
+            init(); 
+        }); 
+        
+       
+    });
 }
 
 
