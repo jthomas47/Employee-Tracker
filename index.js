@@ -10,6 +10,7 @@ db.connect((err) => {
     }
 });
 
+
 // prompt user 
 function promptUser () {
     return inquirer
@@ -30,6 +31,77 @@ function promptUser () {
                 ]
             }
         ]);
+}
+
+
+// shows all departments
+function viewDepartments () {
+    console.log('departments'); 
+}
+
+
+// adds a department
+function addDepartment () {
+    console.log('add department'); 
+}
+
+
+// shows all roles
+function viewRoles () {
+    console.log('roles'); 
+}
+
+
+// adds a role
+function addRole () {
+    console.log('add role'); 
+}
+
+
+// shows all employees
+function viewEmployees () {
+    console.log('employees'); 
+}
+
+
+// add a new employee
+function addEmployee () {
+    console.log('add employee');
+}
+
+
+// updates a current employee
+function updateEmployee () {
+    console.log('update employee');
+}
+
+
+// quits the application
+function quit() {
+    return console.log('Goodbye');
+}
+
+
+// handles user input
+function handleInput ({ userInput }) {
+    switch (userInput) {
+        case "View all departments": 
+            return viewDepartments(); 
+        case "View all roles":
+            return viewRoles();
+        case "view all employees":
+            return viewEmployees(); 
+        case "Add a department":
+            return addDepartment(); 
+        case "Add a role":
+            return addRole(); 
+        case "Add an employee":
+            return addEmployee(); 
+        case "Update current employee role":
+            return updateEmployee(); 
+        case "Quit":
+            return quit();
+    }
 }
 
 
