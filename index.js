@@ -36,7 +36,7 @@ function promptUser () {
 
 // shows all departments
 function viewDepartments () {
-    const sql = `SELECT id, name FROM department`;
+    const sql = `SELECT id, name AS department FROM department`;
     db.query(sql, (err, departments) => {
         if (err) {
             return console.log(err); 
@@ -75,7 +75,7 @@ function addDepartment () {
 function viewRoles () {
     const sql = `
     SELECT 
-        r.id, r.title, r.salary, d.name as department
+        r.id, r.title AS role, r.salary, d.name AS department
         FROM role r
         LEFT JOIN department d 
             ON r.department_id = d.id
@@ -88,7 +88,8 @@ function viewRoles () {
         console.table(roles); 
         init();
      
-    });}
+    });
+}
 
 
 // adds a role
@@ -128,10 +129,10 @@ function addRole () {
 
 
 // shows all employees
-async function viewEmployees () {
+function viewEmployees () {
     const sql = `
     SELECT 
-        e.id, e.first_name AS first, e.last_name AS last, r.title, r.salary, d.name AS department, CONCAT(manager.first_name, ' ', manager.last_name) as manager
+        e.id, e.first_name, e.last_name, r.title AS role, r.salary, d.name AS department, CONCAT(manager.first_name, ' ', manager.last_name) as manager
         FROM employee e
         LEFT JOIN role r
             ON e.role_id = r.id
@@ -150,7 +151,8 @@ async function viewEmployees () {
         console.table(employees); 
         init();
      
-    });}
+    });
+}
 
 
 // add a new employee
